@@ -18,7 +18,9 @@ ENV LC_ALL en_US.UTF-8
 # install subsonic
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/5.2.1/subsonic-5.2.1.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
-RUN apt-get install -y ffmpeg
+
+RUN ln -s /usr/bin/ffmpeg /var/subsonic/transcode/ffmpeg && \
+    ln -s /usr/bin/lame /var/subsonic/transcode/lame
 
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
