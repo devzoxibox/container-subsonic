@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update Ubuntu
 RUN apt-mark hold initscripts udev plymouth
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales
+RUN apt-get -q update && apt-get -qy install wget locales flac lame
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # Set locale to UTF-8
@@ -19,8 +19,10 @@ ENV LC_ALL en_US.UTF-8
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/5.2.1/subsonic-5.2.1.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
-RUN ln -s /usr/bin/ffmpeg /var/subsonic/transcode/ffmpeg && \
-    ln -s /usr/bin/lame /var/subsonic/transcode/lame
+RUN ln /var/subsonic/transcode/ffmpeg /usr/bin
+RUN	cd /var/subsonic/transcode && ln -s "$(which flac)"
+
+RUN chown -R nobody:users /var/subsonic
 
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
