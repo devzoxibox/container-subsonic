@@ -28,8 +28,12 @@ RUN usermod -g 100 nobody
 RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
+EXPOSE 4050
+
 USER nobody 
-VOLUME /subsonic
+
+VOLUME [/subsonic]
+
 CMD /usr/bin/subsonic \
     --home=/subsonic \
     --host=0.0.0.0 \
