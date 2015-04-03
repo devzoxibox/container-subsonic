@@ -20,7 +20,7 @@ RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/5.2.1/subson
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
 # Transcoders
-RUN ln /var/subsonic/transcode/ffmpeg /var/subsonic/transcode/lame /usr/local/bin
+RUN ln /var/subsonic/transcode/ffmpeg /var/subsonic/transcode/lame /subsonic/transcode
 
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
