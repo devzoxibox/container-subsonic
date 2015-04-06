@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update Ubuntu
 RUN apt-mark hold initscripts udev plymouth
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales flac lame
+RUN apt-get -q update && apt-get -qy install wget locales
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # Set locale to UTF-8
@@ -15,12 +15,16 @@ ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
+# Version
+ENV SUBSONIC_VERSION 5.2.1
+
 # install subsonic
-RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/5.2.1/subsonic-5.2.1.deb -O /tmp/subsonic.deb
+RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VERSION/subsonic-$SUBSONIC_VERSION.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
-RUN ln /var/subsonic/transcode/ffmpeg /usr/bin
-RUN	cd /var/subsonic/transcode && ln -s "$(which flac)"
+# Transcoders
+RUN ln -s /var/subsonic/transcode/ffmpeg /usr/bin/
+RUN    ln -s /var/subsonic/transcode/lame /usr/bin/
 
 RUN chown -R nobody:users /var/subsonic
 
@@ -30,14 +34,13 @@ RUN usermod -g 100 nobody
 RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
+#Port ouvert
 EXPOSE 4050
 
 USER nobody 
 
 VOLUME [/subsonic]
 
-# Transcoders
-#RUN ln /var/subsonic/transcode/ffmpeg /var/subsonic/transcode/lame /subsonic/transcode
 
 CMD /usr/bin/subsonic \
     --home=/subsonic \
@@ -48,4 +51,3 @@ CMD /usr/bin/subsonic \
     --default-podcast-folder=/podcast \
     --default-playlist-folder=/playlist \
     && sleep 5 && tail -f /subsonic/subsonic_sh.log
-
