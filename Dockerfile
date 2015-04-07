@@ -1,13 +1,12 @@
 # Builds docker image for subsonic
-FROM java:7
+FROM debian:latest
 
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-# Update Ubuntu
-RUN apt-mark hold initscripts udev plymouth
+# Update debian
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales
+RUN apt-get -q update && apt-get -qy install wget locales ffmpeg
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # Set locale to UTF-8
@@ -23,10 +22,9 @@ RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VE
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
 # Transcoders
-RUN ln -s /var/subsonic/transcode/ffmpeg /usr/bin/
-RUN    ln -s /var/subsonic/transcode/lame /usr/bin/
+# RUN ln -s /var/subsonic/transcode/ffmpeg /usr/bin \ 
+#    ln -s /var/subsonic/transcode/lame /usr/bin/
 
-RUN chown -R nobody:users /var/subsonic
 
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
