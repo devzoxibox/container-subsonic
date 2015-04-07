@@ -4,8 +4,7 @@ FROM debian:latest
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-# Update Ubuntu
-#RUN apt-mark hold initscripts udev plymouth
+# Update Debian
 RUN apt-get update && apt-get -qy dist-upgrade 
 RUN apt-get -q update && apt-get -qy install --no-install-recommends --no-install-suggests wget locales ffmpeg nano openjdk-7-jre-headless
 RUN apt-get clean
@@ -19,13 +18,13 @@ ENV LC_ALL en_US.UTF-8
 # Version
 ENV SUBSONIC_VERSION 5.2.1
 
-# install subsonic
+# Install subsonic
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VERSION/subsonic-$SUBSONIC_VERSION.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
 # Transcoders
-# RUN ln -s /var/subsonic/transcode/ffmpeg /usr/bin \ 
-#    ln -s /var/subsonic/transcode/lame /usr/bin/
+RUN ln -s /var/subsonic/transcode/ffmpeg /subsonic/transcode/ \ 
+    ln -s /var/subsonic/transcode/lame /subsonic/transcode/
 
 
 # Set user nobody to uid and gid of unRAID
@@ -34,13 +33,15 @@ RUN usermod -g 100 nobody
 RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
-#Port ouvert
+# Ports
 EXPOSE 4050
 
-
+# Mount volume
 VOLUME [/subsonic]
 
+USER nobody 
 
+# Command setting subsonic
 CMD /usr/bin/subsonic \
     --home=/subsonic \
     --host=0.0.0.0 \
@@ -50,4 +51,4 @@ CMD /usr/bin/subsonic \
     --default-playlist-folder=/playlist \
     && sleep 5 && tail -f /subsonic/subsonic_sh.log
 
-USER nobody 
+
