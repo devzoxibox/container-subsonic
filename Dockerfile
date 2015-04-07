@@ -22,16 +22,15 @@ ENV SUBSONIC_VERSION 5.2.1
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VERSION/subsonic-$SUBSONIC_VERSION.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 
-# Transcoders
-RUN ln -s /var/subsonic/transcode/ffmpeg /subsonic/transcode/ \ 
-    ln -s /var/subsonic/transcode/lame /subsonic/transcode/
-
-
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
 RUN usermod -g 100 nobody
 RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
+
+# Transcoders
+RUN ln -s /var/subsonic/transcode/ffmpeg /subsonic/transcode/ \ 
+    ln -s /var/subsonic/transcode/lame /subsonic/transcode/
 
 # Ports
 EXPOSE 4050
