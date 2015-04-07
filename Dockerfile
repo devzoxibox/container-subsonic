@@ -7,7 +7,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # Update Ubuntu
 #RUN apt-mark hold initscripts udev plymouth
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales ffmpeg nano openjdk-7-jre
+RUN apt-get -q update && apt-get -qy install --no-install-recommends --no-install-suggests wget locales ffmpeg nano openjdk-7-jre-headless
+RUN apt-get clean
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # Set locale to UTF-8
