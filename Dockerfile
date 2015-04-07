@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Update Debian
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install --no-install-recommends --no-install-suggests wget locales flac ffmpeg nano openjdk-7-jre-headless
+RUN apt-get -q update && apt-get -qy install --no-install-recommends --no-install-suggests wget locales lame flac ffmpeg nano openjdk-7-jre-headless
 RUN apt-get clean
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
@@ -29,8 +29,8 @@ RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
 # Transcoders
-RUN ln /var/subsonic/transcode/ffmpeg /subsonic/transcode \ 
-    ln /var/subsonic/transcode/lame /subsonic/transcode
+#RUN ln /var/subsonic/transcode/ffmpeg /subsonic/transcode \ 
+#   ln /var/subsonic/transcode/lame /subsonic/transcode
 
 # Ports
 EXPOSE 4050
