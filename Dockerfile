@@ -1,13 +1,13 @@
 # Builds docker image for subsonic
-FROM ubuntu:latest
+FROM debian:latest
 
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update Ubuntu
-RUN apt-mark hold initscripts udev plymouth
+#RUN apt-mark hold initscripts udev plymouth
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales ffmpeg
+RUN apt-get -q update && apt-get -qy install wget locales ffmpeg nano
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 # Set locale to UTF-8
@@ -47,6 +47,5 @@ CMD /usr/bin/subsonic \
     --https-port=4050 \
     --max-memory=200 \
     --default-music-folder=/music \
-    --default-podcast-folder=/podcast \
     --default-playlist-folder=/playlist \
     && sleep 5 && tail -f /subsonic/subsonic_sh.log
