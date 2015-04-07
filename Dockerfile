@@ -36,7 +36,6 @@ RUN mkdir /subsonic && chown -R nobody:users /subsonic
 #Port ouvert
 EXPOSE 4050
 
-USER nobody 
 
 VOLUME [/subsonic]
 
@@ -49,3 +48,5 @@ CMD /usr/bin/subsonic \
     --default-music-folder=/music \
     --default-playlist-folder=/playlist \
     && sleep 5 && tail -f /subsonic/subsonic_sh.log
+
+USER nobody 
