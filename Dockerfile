@@ -29,8 +29,8 @@ RUN chown -R nobody:users /var/subsonic
 RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
 # Transcoders
-RUN ln -s /var/subsonic/transcode/ffmpeg /subsonic/transcode/ \ 
-    ln -s /var/subsonic/transcode/lame /subsonic/transcode/
+RUN ln /var/subsonic/transcode/ffmpeg /subsonic/transcode \ 
+    ln /var/subsonic/transcode/lame /subsonic/transcode
 
 # Ports
 EXPOSE 4050
