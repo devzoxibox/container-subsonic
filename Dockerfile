@@ -26,7 +26,6 @@ RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 RUN usermod -u 99 nobody
 RUN usermod -g 100 nobody
 RUN chown -R nobody:users /var/subsonic
-RUN mkdir /subsonic && chown -R nobody:users /subsonic
 
 # Transcoders
 #RUN ln /var/subsonic/transcode/ffmpeg /subsonic/transcode \ 
@@ -36,18 +35,16 @@ RUN mkdir /subsonic && chown -R nobody:users /subsonic
 EXPOSE 4050
 
 # Mount volume
-VOLUME [/subsonic]
+VOLUME [/var/subsonic]
 
 USER nobody 
 
 # Command setting subsonic
 CMD /usr/bin/subsonic \
-    --home=/subsonic \
     --host=0.0.0.0 \
     --https-port=4050 \
     --max-memory=200 \
     --default-music-folder=/music \
-    --default-playlist-folder=/playlist \
     && sleep 5 && tail -f /subsonic/subsonic_sh.log
 
 
