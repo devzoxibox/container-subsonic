@@ -12,17 +12,17 @@ This repository contains all necessary files to build a Docker image for “SubS
 
 ![Alt text](http://www.docgreen.fr/wp-content/uploads/2011/06/subsonic-logo.png "")
 
-## Volumes
+## Volumes :
 
-#### /subsonic
+#### `/subsonic`
 
 Home directory for subsonic, subsonic stores it's log, database properties in this folder.
 
-#### /music
+#### `/music`
 
 Defualt music folder. If remote share ensure it's mounted before run command is issued. 
 
-####`TZ`  
+#### `TZ`
 This environment variable is used to set the [TimeZone] of the container.
 
 [TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
