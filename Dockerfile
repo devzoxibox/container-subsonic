@@ -1,6 +1,8 @@
 # Builds docker image for subsonic
 FROM debian:latest
 
+MAINTAINER zoxi
+
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
