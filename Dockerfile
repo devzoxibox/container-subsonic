@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Update Debian
 RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install --no-install-recommends --no-install-suggests wget locales lame flac ffmpeg nano openjdk-7-jre-headless
+RUN apt-get -q update && apt-get -qy install wget locales lame flac ffmpeg openjdk-7-jre-headless
 RUN apt-get clean
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
@@ -25,26 +25,21 @@ RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
 # Set user nobody to uid and gid of unRAID
 RUN usermod -u 99 nobody
 RUN usermod -g 100 nobody
-RUN chown -R nobody:users /var/subsonic
 
-# Transcoders
-#RUN ln /var/subsonic/transcode/ffmpeg /subsonic/transcode \ 
-#   ln /var/subsonic/transcode/lame /subsonic/transcode
 
 # Ports
 EXPOSE 4050
 
 # Mount volume
-VOLUME [/var/subsonic]
+VOLUME /subsonic
+VOLUME /music
 
-USER nobody 
+RUN chown -R nobody:users /subsonic
 
-# Command setting subsonic
-CMD /usr/bin/subsonic \
-    --host=0.0.0.0 \
-    --https-port=4050 \
-    --max-memory=200 \
-    --default-music-folder=/music \
-    && sleep 5 && tail -f /subsonic/subsonic_sh.log
+ADD start.sh /start.sh
+RUN chmod +x /*.sh
 
 
+USER nobody
+
+ENTRYPOINT ["/start.sh"]
