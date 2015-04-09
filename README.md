@@ -10,5 +10,19 @@ Subsonic also supports on-the-fly media conversion (through the use of plugins) 
 
 This repository contains all necessary files to build a Docker image for “SubSonic” - (http://www.subsonic.org/). Specifically for use within an unRAID environment.
 
-![Alt text](http://i.imgur.com/ue0BK5z.png "")
+![Alt text](http://www.docgreen.fr/wp-content/uploads/2011/06/subsonic-logo.png "")
 
+## Volumes
+
+#### /subsonic
+
+Home directory for subsonic, subsonic stores it's log, database properties in this folder.
+
+#### /music
+
+Defualt music folder. If remote share ensure it's mounted before run command is issued. 
+
+####`TZ`  
+This environment variable is used to set the [TimeZone] of the container.
+
+[TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
