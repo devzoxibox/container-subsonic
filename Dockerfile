@@ -1,47 +1,34 @@
 # Builds docker image for subsonic
-FROM debian:latest
+FROM zoxi/contenair-debian:latest
 
-MAINTAINER zoxi
-
-# Let the container know that there is no tty
-ENV DEBIAN_FRONTEND noninteractive
-
-# Update Debian
-RUN apt-get update && apt-get -qy dist-upgrade 
-RUN apt-get -q update && apt-get -qy install wget locales lame flac ffmpeg openjdk-7-jre-headless
+# Installation des dépendances
+RUN apt-get -q update && apt-get -qy install lame flac ffmpeg openjdk-7-jre-headless
 RUN apt-get clean
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
-# Set locale to UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
 
-# Version
+# Version de Subsonic
 ENV SUBSONIC_VERSION 5.2.1
 
-# Install subsonic
+# Installation de Subsonic
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VERSION/subsonic-$SUBSONIC_VERSION.deb -O /tmp/subsonic.deb
 RUN dpkg -i /tmp/subsonic.deb && rm /tmp/subsonic.deb
-
-# Set user nobody to uid and gid of unRAID
-RUN usermod -u 99 nobody
-RUN usermod -g 100 nobody
 
 
 # Ports
 EXPOSE 4050
 
-# Mount volume
+# Montage des volumes
 VOLUME /subsonic
 VOLUME /music
 
+# Ajout des droits à "/subsonic"
 RUN chown -R nobody:users /subsonic
 
+# Ajout du script de démarrage 
 ADD start.sh /start.sh
 RUN chmod +x /*.sh
 
-
+# Passage en user "nobody"
 USER nobody
 
 ENTRYPOINT ["/start.sh"]
