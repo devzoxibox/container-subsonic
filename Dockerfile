@@ -2,7 +2,7 @@
 FROM zoxi/container-debian:latest
 
 # Installation des dépendances
-RUN echo "deb http://www.deb-multimedia.org sid main" >> /etc/apt/sources.list
+RUN echo "deb http://www.deb-multimedia.org jessie main" >> /etc/apt/sources.list
 
 RUN apt-get -q update && apt-get -qy install deb-multimedia-keyring lame flac openjdk-7-jre-headless
 RUN apt-get -qy install ffmpeg
