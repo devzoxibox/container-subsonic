@@ -2,7 +2,7 @@
 FROM zoxi/container-debian:latest
 
 # Installation des dépendances
-RUN apt-get -q update && apt-get -qy install lame flac ffmpeg openjdk-7-jre-headless
+RUN apt-get -q update && apt-get -qy install lame flac openjdk-7-jre-headless
 RUN apt-get clean
 
 
