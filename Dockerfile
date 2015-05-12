@@ -1,11 +1,7 @@
 # Builds docker image for subsonic
 FROM zoxi/container-debian:latest
 
-# Installation des dépendances
-RUN echo "deb http://www.deb-multimedia.org jessie main" >> /etc/apt/sources.list
-
-RUN apt-get -q update && apt-get -qy install deb-multimedia-keyring lame flac openjdk-7-jre-headless --force-yes
-RUN apt-get -q update && apt-get -qy install ffmpeg
+RUN apt-get -q update && apt-get -qy install lame flac openjdk-7-jre-headless ffmpeg
 RUN apt-get clean
 
 
