@@ -6,7 +6,7 @@ RUN apt-get clean
 
 
 # Version de Subsonic
-ENV SUBSONIC_VERSION 5.2.1
+ENV SUBSONIC_VERSION 5.3
 
 # Installation de Subsonic
 RUN wget http://downloads.sourceforge.net/project/subsonic/subsonic/$SUBSONIC_VERSION/subsonic-$SUBSONIC_VERSION.deb -O /tmp/subsonic.deb
